@@ -1,17 +1,9 @@
 # BYU-Pathway Worldwide Online
-
 ## WDD 330 - Web Frontend Development II
 
-### ⛺ SleepOutside Starter Code
+### Final Project - Alvin Timana
 
-- This repository is the start of the SleepOutside web application project for WDD 330. The repository contains branches which are checkpoints for the team and individual assignments throughout the course.
-
-- <https://byui-cse.github.io/wdd330-ww-course/week01/team.html>
-
-### Prerequisites
-
-- You must have Node installed to run the following commands.
-[WDD 330 Setup Environment](https://byui-cse.github.io/wdd330-ww-course/intro/)
+- A platform where users can search for a franchise, saga, or theme and view both related video games and movies/series, along with their ratings and release dates.This repository uses the start of the SleepOutside web application project for WDD 330.
 
 ### Common Workflow Commands
 
