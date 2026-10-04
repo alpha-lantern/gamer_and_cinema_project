@@ -1,8 +1,8 @@
 {
-  "name": "outside",
+  "name": "gamer-and-cinema",
   "version": "2.0.0",
-  "description": "Boilerplate for WDD 330 SleepOutside project",
-  "main": "js/main.js",
+  "description": "Boilerplate for WDD 330 Final Project",
+  "main": "main.js",
   "scripts": {
     "start": "vite",
     "build": "vite build --emptyOutDir",
