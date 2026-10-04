@@ -1,17 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap");
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap');
 
 :root {
-  --font-body: 'Inter', Helvetica, sans-serif;
-  --font-headline: 'Poppins', "Arial Narrow Bold", sans-serif;
+  --font-body: "Inter", Helvetica, sans-serif;
+  --font-headline: "Poppins", "Arial Narrow Bold", sans-serif;
   /* colors */
-  --primary-color: #0A1121;
-  --secondary-color: #1C1E23;
-  --accent-color-1: #00E5FF;
-  --accent-color-2: #FFD700;
-  --light-text: #F7F8FA;
-  --dark-text: #0A1121;
-  --secondary-text: #A0AEC0;
+  --primary-color: #0a1121;
+  --secondary-color: #1c1e23;
+  --accent-color-1: #00e5ff;
+  --accent-color-2: #ffd700;
+  --light-text: #f7f8fa;
+  --dark-text: #0a1121;
+  --secondary-text: #a0aec0;
 
   /* sizes */
   --font-base: 18px;
