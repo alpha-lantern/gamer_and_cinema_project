@@ -19,8 +19,94 @@
   --large-font: 1.2em;
 }
 
+/* ************************************************ 
+* -- Global Styles -- *
+************************************************* */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 1.5rem;
+  background-color: var(--primary-color);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-headline);
+  color: var(--light-text);
+  font-size: var(--large-font);
+}
+
+p {
+  font-family: var(--font-body);
+  font-size: var(--font-base);
+  color: var(--secondary-text);
+}
+
+/* ************************************************ 
+* -- Button Styles -- *
+************************************************* */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent-color-1);
+  color: var(--primary-color);
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  font-family: var(--font-body);
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--accent-color-2);
+  color: var(--primary-color);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.call {
+  margin-top: 1rem;
+}
+
+/* ************************************************ 
+* -- Header and Navigation Styles -- *
+************************************************* */
+.logo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  & img {
+    height: 2.5rem;
+    width: auto;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.divider {
+  border-bottom: 1px solid var(--secondary-color);
+  padding: .8rem 1rem;
+  align-items: center;
+}
+
+/* ************************************************ 
+* -- Hero Section Styles -- *
+************************************************* */
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  background-color: var(--secondary-color);
+  color: var(--light-text);
 }
