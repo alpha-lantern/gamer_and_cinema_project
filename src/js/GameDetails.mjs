@@ -10,8 +10,8 @@ function gameTemplate(game) {
       <h2 class="details-title-sml">${game.name}</h2>
       <p class="details-sml"><span class="label">Released:</span> ${game.released}</p>
       <p class="details-sml">${game.genres?.map(g => g.name).join(", ")}</p>
-      <p class="details-sml">${game.playtime} | ${game.rating}</p>
-      <p class="details-sml"><span class="label">Director:</span> ${game.developers?.[0]?.name}</p>
+      <p class="details-sml">${game.esrb_rating?.name} | ${game.platforms?.map(p => p.platform.name).join(", ")}</p>
+      <p class="details-sml"><span class="label">Developer:</span> ${game.developers?.[0]?.name}</p>
       <p class="details-sml float-right"><span class="label">RAWG:</span> ${game.rating}/5</p>
       <a href="details/${game.id}" class="details-sml link-primary">View Details →</a>
     </div>
