@@ -12,7 +12,6 @@ export default defineConfig({
         main: resolve(__dirname, "src/index.html"),
         explore: resolve(__dirname, "src/explore/index.html"),
         saved: resolve(__dirname, "src/saved_titles/index.html"),
-        help: resolve(__dirname, "src/help/index.html"),
         details: resolve(__dirname, "src/details/index.html")
       },
     },
