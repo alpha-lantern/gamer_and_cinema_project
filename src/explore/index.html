@@ -4,14 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GeC | Explore</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <script src="/js/explore.js" type="module"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/explore.js" type="module"></script>
   </head>
 
   <body>
     <header class="divider flex justify-between" id="main-header"></header>
     <main class="container">
+      <section class="grid search-section" id="search">
         <h1>Explore Titles</h1>
+        <form class="" id="search-form" method="GET" action="/details/">
+          <input
+            type="text"
+            name="search"
+            id="search-input"
+            placeholder="Search for a title..."
+            class="search-bar"
+          />
+          <button type="submit" id="search-button">Search</button>
+        </form>
+      </section>
+      <section class="flex flex-wrap" id="filters"></section>
+      <!-- Will be populated using JavaScript -->
+      <section class="flex flex-wrap" id="games-container"></section>
+      <section class="flex flex-wrap" id="movies-container"></section>
     </main>
     <footer class="divider" id="main-footer"></footer>
   </body>
