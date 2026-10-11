@@ -1,6 +1,7 @@
 import { renderWithTemplate, renderListWithTemplate } from '/js/utils.mjs';
 
 const moviesURL = import.meta.env.VITE_OMDB_SERVER_URL;
+const apiKey = import.meta.env.VITE_OMDB_API_KEY;
 
 function movieTemplate(movie) {
   return `
@@ -32,21 +33,21 @@ export default class MovieDetails {
   }
 
   async getAllMoviesByTitle(title) {
-    const response = await fetch(`${moviesURL}s=${title}`);
+    const response = await fetch(`${moviesURL}?s=${title}&apikey=${apiKey}`);
     const data = await convertToJson(response);
 
     return data;
   }
 
   async getMovieByTitle(title) {
-    const response = await fetch(`${moviesURL}t=${title}`);
+    const response = await fetch(`${moviesURL}?t=${title}&apikey=${apiKey}`);
     const data = await convertToJson(response);
 
     return data.Result;
   }
 
   async getMovieById(id) {
-    const response = await fetch(`${moviesURL}i=${id}`);
+    const response = await fetch(`${moviesURL}?i=${id}&apikey=${apiKey}`);
     const movie = await convertToJson(response);
     return movie;
   }
