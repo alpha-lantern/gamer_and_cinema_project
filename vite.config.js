@@ -11,7 +11,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "src/index.html"),
         explore: resolve(__dirname, "src/explore/index.html"),
-        saved: resolve(__dirname, "src/saved_titles/index.html"),
+        saved_titles: resolve(__dirname, "src/saved_titles/index.html"),
         details: resolve(__dirname, "src/details/index.html")
       },
     },

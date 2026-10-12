@@ -49,10 +49,28 @@ p {
   font-size: var(--font-base);
 }
 
+.footer {
+  background-color: var(--light-text);
+  align-content: center;
+  font-family: var(--font-body);
+  & div {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+.divider {
+  border-bottom: 1px solid var(--secondary-color);
+  padding: .8rem 1rem;
+  align-items: center;
+}
+
 /* ************************************************ 
 * -- Button Styles -- *
 ************************************************* */
 .btn {
+  margin: 1rem 0;
   display: inline-block;
   padding: 0.5rem 1rem;
   background-color: var(--accent-color-1);
@@ -103,12 +121,6 @@ p {
     height: 2.5rem;
     width: auto;
   }
-}
-
-.divider {
-  border-bottom: 1px solid var(--secondary-color);
-  padding: .8rem 1rem;
-  align-items: center;
 }
 
 /* ************************************************ 
@@ -279,9 +291,9 @@ p {
 /* ************************************
 -- Dashboard Cards
 ************************************* */
-.container {
+/* .container {
   margin: 1rem 0;
-}
+} */
 
 .media-card {
   margin: .5rem 0;
@@ -318,6 +330,10 @@ p {
 
 .media-type {
   grid-area: media-type;
+}
+
+.media-rating {
+  grid-area: rating;
 }
 
 .media-data {
@@ -454,6 +470,27 @@ p {
   cursor: pointer;
 }
 
+/* **************************
+-- DETAILS PAGE
+*************************** */
+.main-cover {
+  margin: 0 auto 1.5rem;
+  width: 100%;
+  max-height: 500px;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+}
+
+.main-poster {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  object-fit: cover;
+  object-position: center;
+}
+
+
 /* ---
 ### Desktop Media Query (Wide Screens)
 When the viewport is wide enough (e.g., `1024px` and above)
@@ -520,5 +557,20 @@ When the viewport is wide enough (e.g., `1024px` and above)
 
   .nav-link {
     font-size: 1rem;
+  }
+
+  /* Details Page */
+  .main-cover {
+    width: auto;
+    height: 100%;
+  }
+
+  .details-container {
+    display: grid;
+    grid-template-columns: 1fr 500px;
+  }
+
+  .game-details, .movie-details {
+    max-width: 100%;
   }
 }

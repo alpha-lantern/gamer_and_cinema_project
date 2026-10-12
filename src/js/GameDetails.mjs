@@ -3,7 +3,7 @@ import { renderWithTemplate, renderListWithTemplate } from '/js/utils.mjs';
 const gamesURL = import.meta.env.VITE_RAWG_SERVER_URL;
 const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 
-function gameTemplate(game) {
+function gameCardTemplate(game) {
   return `
     <div class="media-card">
       <div class="media-cover">
@@ -11,7 +11,7 @@ function gameTemplate(game) {
       </div>
 
       <span class="media-type">Video game</span>
-      <span class="rating"><strong class="label">RAWG:</strong> ${game.rating}/5</span>
+      <span class="media-rating"><strong class="label">RAWG:</strong> ${game.rating}/5</span>
 
       <div class="media-data">
         <h3 class="details-title-sml">${game.name}</h3>
@@ -23,7 +23,42 @@ function gameTemplate(game) {
 
       <p class="details-sml media-dev-dir"><span class="label">Developer:</span> ${game.developers?.[0]?.name}</p>
 
-      <a href="details/${game.id}" class="go-to-details link-primary">View Details → </a>
+      <a href="../details/?game=${game.id}" class="go-to-details link-primary">View Details → </a>
+    </div>
+  `;
+}
+
+function gameTemplate(game) {
+  return `
+    <div class="game-details">
+      <div class="main-cover">
+        <img src="${game.background_image}" alt="${game.name} Poster" class="main-poster" loading="lazy" />
+      </div>
+
+      <p class="type-rating">
+        <span class="type">Video game</span>
+        <span class="rating"><strong class="label">RAWG:</strong> ${game.rating}/5</span>
+      </p>
+
+      <h2 class="details-title">${game.name}</h2>
+
+      <div class="details-card">
+        <p class="released"><span class="label">Released:</span> ${game.released}</p>
+        <p class="genres">Genres: ${game.genres?.map(g => g.name).join(", ")}</p>
+        <p class="rated">ESRB: ${game.esrb_rating?.name}</p>
+        <p class="platforms">Platforms: ${game.platforms?.map(p => p.platform.name).join(", ")}</p>
+        <p class="dev-dir"><span class="label">Developer:</span> ${game.developers?.[0]?.name}</p>
+      </div>
+
+      <div class="description">
+        <h3>Description</h3>
+        ${game.description}
+      </div>
+
+      <div class="stores">
+        <h3>Where to buy?</h3>
+        <p>${game.stores.map(s => s.store.name).join(" | ")}</p>
+      <div>
     </div>
   `;
 }
@@ -67,6 +102,6 @@ export default class GameDetails {
   }
 
   async renderGamesList(gamesList, parentElement) {
-    await renderListWithTemplate(gameTemplate, parentElement, gamesList, "beforeend");
+    await renderListWithTemplate(gameCardTemplate, parentElement, gamesList, "beforeend");
   }
 }

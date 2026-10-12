@@ -49,6 +49,19 @@ export async function loadTemplate(path){
   }
 }
 
+function loadNavigationMenu() {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navMenu = document.getElementById('nav-menu');
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.toggle('is-active');
+    menuToggle.classList.toggle('is-active');
+    
+    // Update accessibility attribute
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
+
 export async function loadHeaderFooter() {
   const header = await loadTemplate("../partials/header.html");
   const footer = await loadTemplate("../partials/footer.html");
@@ -57,6 +70,7 @@ export async function loadHeaderFooter() {
 
   renderWithTemplate(header, headerElement);
   renderWithTemplate(footer, footerElement);
+
   loadNavigationMenu();
 }
 
@@ -79,17 +93,11 @@ export function processSearchParams(form) {
   })
 }
 
-function loadNavigationMenu() {
-  const menuToggle = document.getElementById('menu-toggle');
-  const navMenu = document.getElementById('nav-menu');
-
-  menuToggle.addEventListener('click', () => {
-    const isOpen = navMenu.classList.toggle('is-active');
-    menuToggle.classList.toggle('is-active');
-    
-    // Update accessibility attribute
-    menuToggle.setAttribute('aria-expanded', isOpen);
-  });
+export function getParam(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const id = urlParams.get(param);
+  return id
 }
 
 // export function getSearchParams(button, form) {
