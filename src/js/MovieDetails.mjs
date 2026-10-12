@@ -5,15 +5,24 @@ const apiKey = import.meta.env.VITE_OMDB_API_KEY;
 
 function movieTemplate(movie) {
   return `
-    <div class="movie-card">
-      <img src="${movie.Poster}" alt="${movie.Title} Poster" class="movie-poster" />
-      <h2 class="details-title-sml">${movie.Title}</h2>
-      <p class="details-sml"><span class="label">Released:</span> ${movie.Year}</p>
-      <p class="details-sml">${movie.Genre}</p>
-      <p class="details-sml">${movie.Runtime} | ${movie.Rated}</p>
-      <p class="details-sml"><span class="label">Director:</span> ${movie.Director}</p>
-      <p class="details-sml float-right"><span class="label">IMDB</span> ${movie.imdbRating}/10</p>
-      <a href="details/${movie.imdbID}" class="details-sml link-primary">View Details →</a>
+    <div class="media-card">
+      <div class="media-cover">
+        <img src="${movie.Poster}" alt="${movie.Title} Poster" class="movie-poster" loading="lazy" />
+      </div>
+
+      <span class="media-type">Movies & Series</span>
+      <span class="rating"><strong class="label">IMDB:</strong> ${movie.imdbRating}/10</span>
+
+      <div class="media-data">
+        <h3 class="details-title-sml">${movie.Title}</h3>
+        <p class="details-sml"><span class="label">Released:</span> ${movie.Year}</p>
+        <p class="details-sml">${movie.Genre}</p>
+      </div>
+
+      <p class="details-sml media-rated">${movie.Runtime} | ${movie.Rated}</p>
+      <p class="details-sml media-dev-dir"><span class="label">Director:</span> ${movie.Director}</p>
+
+      <a href="details/${movie.imdbID}" class="go-to-details link-primary">View Details → </a>
     </div>
   `;
 }
@@ -58,6 +67,6 @@ export default class MovieDetails {
   }
 
   async renderMoviesList(moviesList, parentElement) {
-    await renderListWithTemplate(movieTemplate, parentElement, moviesList);
+    await renderListWithTemplate(movieTemplate, parentElement, moviesList,"beforeend");
   }
 }

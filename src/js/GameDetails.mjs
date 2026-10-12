@@ -5,15 +5,25 @@ const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 
 function gameTemplate(game) {
   return `
-    <div class="movie-card">
-      <img src="${game.background_image}" alt="${game.name} Poster" class="game-poster" width="300" />
-      <h2 class="details-title-sml">${game.name}</h2>
-      <p class="details-sml"><span class="label">Released:</span> ${game.released}</p>
-      <p class="details-sml">${game.genres?.map(g => g.name).join(", ")}</p>
-      <p class="details-sml">${game.esrb_rating?.name} | ${game.platforms?.map(p => p.platform.name).join(", ")}</p>
-      <p class="details-sml"><span class="label">Developer:</span> ${game.developers?.[0]?.name}</p>
-      <p class="details-sml float-right"><span class="label">RAWG:</span> ${game.rating}/5</p>
-      <a href="details/${game.id}" class="details-sml link-primary">View Details →</a>
+    <div class="media-card">
+      <div class="media-cover">
+        <img src="${game.background_image}" alt="${game.name} Poster" class="game-poster" width="300" loading="lazy" />
+      </div>
+
+      <span class="media-type">Video game</span>
+      <span class="rating"><strong class="label">RAWG:</strong> ${game.rating}/5</span>
+
+      <div class="media-data">
+        <h3 class="details-title-sml">${game.name}</h3>
+        <p class="details-sml media-released"><span class="label">Released:</span> ${game.released}</p>
+        <p class="details-sml media-genres">${game.genres?.map(g => g.name).join(", ")}</p>
+      </div>
+
+      <p class="details-sml media-rated">${game.esrb_rating?.name} | ${game.platforms?.map(p => p.platform.name).slice(0, 3).join(", ")}</p>
+
+      <p class="details-sml media-dev-dir"><span class="label">Developer:</span> ${game.developers?.[0]?.name}</p>
+
+      <a href="details/${game.id}" class="go-to-details link-primary">View Details → </a>
     </div>
   `;
 }
@@ -39,10 +49,10 @@ export default class GameDetails {
   }
 
   async getGameByTitle(title) {
-    const response = await fetch(`${gamesURL}?name=${title}&key=${apiKey}`);
+    const response = await fetch(`${gamesURL}/${title}?key=${apiKey}`);
     const data = await convertToJson(response);
 
-    return data.results;
+    return data;
   }
 
   async getGameById(id) {
@@ -57,6 +67,6 @@ export default class GameDetails {
   }
 
   async renderGamesList(gamesList, parentElement) {
-    await renderListWithTemplate(gameTemplate, parentElement, gamesList);
+    await renderListWithTemplate(gameTemplate, parentElement, gamesList, "beforeend");
   }
 }

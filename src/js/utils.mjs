@@ -2,8 +2,6 @@
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
@@ -59,4 +57,41 @@ export async function loadHeaderFooter() {
 
   renderWithTemplate(header, headerElement);
   renderWithTemplate(footer, footerElement);
+  loadNavigationMenu();
 }
+
+export function processSearchParams(form) {
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form)
+    const searchParams = new URLSearchParams();
+
+    for (const [key, value] of formData.entries()) {
+      if (value.trim() !== "") {
+        searchParams.append(key, value);
+        paramsArray.push(`{${key}, ${value}}`);
+      }
+    }
+
+    const queryString = searchParams.toString();
+    window.location.href = `${window.location.pathname}${queryString ? '?' + queryString : ''}`;
+  })
+}
+
+function loadNavigationMenu() {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navMenu = document.getElementById('nav-menu');
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.toggle('is-active');
+    menuToggle.classList.toggle('is-active');
+    
+    // Update accessibility attribute
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
+
+// export function getSearchParams(button, form) {
+//   setClick(button, processSearchParams(form));
+// }

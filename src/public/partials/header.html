@@ -1,11 +1,20 @@
-<div class="logo-header flex items-center gap-2">
-  <img src="../images/logos/logo.png" alt="GeC Logo" />
-  <a href="../index.html"> Gaming & <span class="highlight">Cinema</span></a>
+<div class="header-container">
+  <div class="logo-header">
+    <a href="../index.html" class="nav-link logo"><img src="../images/logos/logo.png" alt="GeC Logo" class="logo"/>
+    <span>Gaming & Cinema</span></a>
+  </div>
+
+  <button id="menu-toggle" class="menu-toggle" aria-label="Toggle Navigation" aria-expanded="false">
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+  </button>
+
+  <nav id="nav-menu" class="nav-menu">
+    <ul class="nav-list font-bold">
+      <li><a href="../index.html" class="nav-link">Home</a></li>
+      <li><a href="../explore/" class="nav-link">Explore</a></li>
+      <li><a href="../saved/" class="nav-link">Saved Titles</a></li>
+    </ul>
+  </nav>
 </div>
-<nav class="navigation">
-  <ul class="nav-links font-bold">
-    <li><a href="../index.html">Home</a></li>
-    <li><a href="../explore/">Explore</a></li>
-    <li><a href="../saved/">Saved Titles</a></li>
-  </ul>
-</nav>
