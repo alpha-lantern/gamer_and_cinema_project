@@ -1,4 +1,4 @@
-import { renderWithTemplate, renderListWithTemplate } from '/js/utils.mjs';
+import { renderWithTemplate, renderListWithTemplate } from "/js/utils.mjs";
 
 const moviesURL = import.meta.env.VITE_OMDB_SERVER_URL;
 const apiKey = import.meta.env.VITE_OMDB_API_KEY;

@@ -1,4 +1,4 @@
-import { renderWithTemplate, renderListWithTemplate } from '/js/utils.mjs';
+import { renderWithTemplate, renderListWithTemplate } from "/js/utils.mjs";
 
 const gamesURL = import.meta.env.VITE_RAWG_SERVER_URL;
 const apiKey = import.meta.env.VITE_RAWG_API_KEY;

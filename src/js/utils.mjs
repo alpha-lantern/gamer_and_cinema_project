@@ -50,15 +50,15 @@ export async function loadTemplate(path){
 }
 
 function loadNavigationMenu() {
-  const menuToggle = document.getElementById('menu-toggle');
-  const navMenu = document.getElementById('nav-menu');
+  const menuToggle = document.getElementById("menu-toggle");
+  const navMenu = document.getElementById("nav-menu");
 
-  menuToggle.addEventListener('click', () => {
-    const isOpen = navMenu.classList.toggle('is-active');
-    menuToggle.classList.toggle('is-active');
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navMenu.classList.toggle("is-active");
+    menuToggle.classList.toggle("is-active");
     
     // Update accessibility attribute
-    menuToggle.setAttribute('aria-expanded', isOpen);
+    menuToggle.setAttribute("aria-expanded", isOpen);
   });
 }
 
@@ -89,7 +89,7 @@ export function processSearchParams(form) {
     }
 
     const queryString = searchParams.toString();
-    window.location.href = `${window.location.pathname}${queryString ? '?' + queryString : ''}`;
+    window.location.href = `${window.location.pathname}${queryString ? "?" + queryString : ""}`;
   })
 }
 
