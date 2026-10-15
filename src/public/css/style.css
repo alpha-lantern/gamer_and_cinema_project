@@ -100,6 +100,7 @@ p {
   color: var(--accent-color-1);
   text-decoration: none;
   font-weight: 600;
+  font-family: var(--font-body);
   transform: translateX(-4px);
 }
 
@@ -297,7 +298,7 @@ p {
 
 .media-card {
   position: relative;
-  margin: .5rem 0;
+  margin: .8rem 0 1rem;
   padding: .8rem;
   border: var(--accent-color-1) solid 1px;
   border-radius: .6rem;
@@ -311,6 +312,12 @@ p {
     "media-dev-dir media-dev-dir link"
   ;
   gap: .5rem;
+}
+
+.media-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 8px var(--accent-color-1);
+  transition: ease-in-out .2s;
 }
 
 .save-btn {
@@ -620,3 +627,4 @@ When the viewport is wide enough (e.g., `1024px` and above)
     max-width: 100%;
   }
 }
+

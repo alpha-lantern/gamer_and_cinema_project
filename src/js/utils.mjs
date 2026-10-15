@@ -128,15 +128,6 @@ function getTitleId(title) {
   return title;
 }
 
-// export function setClick(button, callback, newClass="") {
-//   button.addEventListener("click", () => {
-//     callback();
-//     if (newClass !== "") {
-//       button.classList.toggle(newClass);
-//     }
-//   });
-// }
-
 export function bindSaveButton(button, title, key, onUnsave) {
   const titleId = getTitleId(title);
   const savedTitles = getLocalStorage(key) || [];
@@ -144,7 +135,7 @@ export function bindSaveButton(button, title, key, onUnsave) {
     savedTitle => String(getTitleId(savedTitle)) === String(titleId)
   );
 
-  const updateButton = saved => {
+  const updateButton = (saved) => {
     button.classList.toggle("saved", saved);
     button.setAttribute("aria-label", saved ? "Remove saved title" : "Save title");
   };
@@ -152,10 +143,10 @@ export function bindSaveButton(button, title, key, onUnsave) {
   updateButton(isSaved);
   button.addEventListener("click", () => {
     const saved = toggleSaveTitle(title, key);
-      updateButton(saved);
-      if (!saved && onUnsave) {
-        onUnsave();
-      }
+    updateButton(saved);
+    if (!saved && onUnsave) {
+      onUnsave();
+    }
   });
 }
 
