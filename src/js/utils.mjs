@@ -16,7 +16,7 @@ export function convertToJson(res) {
   if (res.ok) {
     return res.json();
   } else {
-    throw new Error("Bad Response");
+    throw new Error(`Bad Response. HTTP${res.status}: ${res.statusText}`);
   }
 }
 
@@ -27,7 +27,7 @@ export async function loadData(path) {
     return data;
   }
   catch (error) {
-    console.error(`Error loading data from ${path}:`, error);
+    console.error(`Error loading data from path:`, error);
     throw error;
   }
 }

@@ -1,4 +1,4 @@
-import { loadHeaderFooter, qs, getLocalStorage, setLocalStorage } from "/js/utils.mjs";
+import { loadHeaderFooter, qs, getLocalStorage } from "/js/utils.mjs";
 import GameDetails from "./GameDetails.mjs";
 import MovieDetails from "./MovieDetails.mjs";
 

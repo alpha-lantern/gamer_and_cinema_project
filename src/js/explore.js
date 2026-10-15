@@ -3,14 +3,22 @@ import GameDetails from '/js/GameDetails.mjs';
 import MovieDetails from '/js/MovieDetails.mjs';
 import Filters from './Filters.mjs';
 
+// Containers
 const moviesContainer = qs("#movies-container");
 const gamesContainer = qs("#games-container");
 const filterForm = qs("#filter-form");
 // const filterButton = qs("#apply-filters");
 
+// Objects
 const movieDetails = new MovieDetails();
 const gameDetails = new GameDetails();
 const filters = new Filters();
+
+// Filters
+const filterParams= filters.getParams();
+// console.log(filterParams);
+const search = filters.getSearch();
+// console.log(search);
 
 // Load header and footer
 loadHeaderFooter();
@@ -44,7 +52,7 @@ const defaultExplore = async () => {
     // const testGameList = [12020, 3070, 3328];
     const gameDefaultList = ["jedi-the-fallen-order", "star-wars-jedi-survivor", "star-wars-squadrons", "star-wars-jedi-knight-ii-jedi-outcast"]
     const gameList = await Promise.all(gameDefaultList.map(title => gameDetails.getGameByTitle(title)));
-    // console.log(gameList);
+    console.log(gameList);
 
     await gameDetails.renderGamesList(gameList, gamesContainer);
 }
@@ -53,20 +61,15 @@ const filteredExplore = async () => {
   let gameList = [];
   let movieList = [];
   if (filters.getSearch()) {
-    const search = filters.getSearch();
     gameList = await gameDetails.getAllContentByTitle(search);
     movieList = await movieDetails.getAllContentByTitle(search);
-    console.log(search);
-    console.log(movieList);
-    console.log(gameList);
+    // console.log(movieList);
+    // console.log(gameList);
 
     await gameDetails.renderGamesList(gameList, gamesContainer);
     await movieDetails.renderMoviesList(movieList, moviesContainer);
   } else {
-    const filterList = filters.getParams();
-    console.log(filterList);
-
-    gameList = await gameDetails.getListByFilters(filterList.genre, filterList.platform);
+    gameList = await gameDetails.getListByFilters(filterParams.genre, filterParams.platform);
     const tempTitle = gameList[0].name
     movieList = await movieDetails.getAllContentByTitle(tempTitle);
 
@@ -75,7 +78,7 @@ const filteredExplore = async () => {
   }
 }
 
-if(filters.getSearch() !== null || filters.getParams().values !== null) {
+if(search !== null || Object.values(filterParams).some(value => value !== null)) {
   filteredExplore();
   console.log("filtered");
 } else {

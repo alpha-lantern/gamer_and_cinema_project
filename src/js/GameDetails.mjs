@@ -8,7 +8,7 @@ function gameCardTemplate(game) {
     <div class="media-card">
       <div class="media-cover">
         <img src="${game.background_image}" alt="${game.name} Poster" class="game-poster" width="300" loading="lazy" />
-        <button class="save-btn" aria-label="Save title" data-id="${game.id}">
+        <button class="save-btn" aria-label="Save title" data-slug="${game.slug}">
           <svg class="star-icon" viewBox="0 0 24 24" width="24" height="24">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
@@ -104,9 +104,8 @@ export default class GameDetails {
     const localKey = "savedGames";
 
     for(const btn of saveBtns) {
-      // console.log(btn.dataset.id);
 
-      const title = await this.getGameById(btn.dataset.id);
+      const title = await this.getGameByTitle(btn.dataset.slug);
       // console.log(title);
 
       setClick(btn, () => {
