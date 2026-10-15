@@ -1,4 +1,4 @@
-import { renderWithTemplate, renderListWithTemplate, setClick, toggleSaveTitle, loadData, parseTitle } from "/js/utils.mjs";
+import { renderWithTemplate, renderListWithTemplate, bindSaveButton, loadData, parseTitle } from "/js/utils.mjs";
 
 const moviesURL = import.meta.env.VITE_OMDB_SERVER_URL;
 const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -8,7 +8,7 @@ function movieCardTemplate(movie) {
     <div class="media-card">
       <div class="media-cover">
         <img src="${movie.Poster}" alt="${movie.Title} Poster" class="movie-poster" loading="lazy" />
-        <button class="save-btn" aria-label="Save title" data-id="${movie.imdbID}">
+        <button class="movie-save-btn save-btn" aria-label="Save title" data-id="${movie.imdbID}">
           <svg class="star-icon" viewBox="0 0 24 24" width="24" height="24">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
@@ -96,20 +96,18 @@ export default class MovieDetails {
 
   async renderMoviesList(moviesList, parentElement) {
     await renderListWithTemplate(movieCardTemplate, parentElement, moviesList,"beforeend");
-
-    const saveBtns = document.querySelectorAll(".save-btn");
-    // console.log(saveBtns);
     const localKey = "savedMovies";
 
-    for(const btn of saveBtns) {
+    const saveBtns = document.querySelectorAll(".movie-save-btn");
+    // console.log(saveBtns);
+
+    for(const [index, btn] of saveBtns.entries()) {
       // console.log(btn.dataset.id);
 
-      const title = await this.getMovieById(btn.dataset.id);
+      const title = moviesList[index];
       // console.log(title);
 
-      setClick(btn, () => {
-        toggleSaveTitle(title, localKey)
-      }, "saved");
+      bindSaveButton(btn, title, localKey);
     }
   }
 }

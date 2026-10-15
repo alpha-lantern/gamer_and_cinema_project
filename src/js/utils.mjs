@@ -112,36 +112,76 @@ export function getParam(param) {
   return id
 }
 
-export function setClick(button, callback, newClass="") {
-  button.addEventListener("click", () => {
-    callback();
-    if (newClass !== "") {
-      button.classList.toggle(newClass);
-    }
-  });
-}
-
-export async function toggleSaveTitle(title, key) {
-  const savedTitles = await getLocalStorage(key) || [];
-
-  const savedIndex = savedTitles.indexOf(title.id);
-  console.log(title);
-
-  // check if title already exist
-  if (savedIndex > -1) {
-    savedTitles.splice(savedIndex, 1);
-    console.log("title already saved, so removing it");
-  } else {
-    savedTitles.push(title);
-    // console.log("title saved");
-  }
-
-  setLocalStorage(key, savedTitles);
-}
-
 export function parseTitle(title) {
   title.trim();
   const parsed = title.split(":")[0];
 
   return parsed;
 }
+
+// Save and unsave utilities
+function getTitleId(title) {
+  if (title && typeof title === "object") {
+    return title.id ?? title.imdbID ?? title.slug;
+  }
+
+  return title;
+}
+
+// export function setClick(button, callback, newClass="") {
+//   button.addEventListener("click", () => {
+//     callback();
+//     if (newClass !== "") {
+//       button.classList.toggle(newClass);
+//     }
+//   });
+// }
+
+export function bindSaveButton(button, title, key, onUnsave) {
+  const titleId = getTitleId(title);
+  const savedTitles = getLocalStorage(key) || [];
+  const isSaved = savedTitles.some(
+    savedTitle => String(getTitleId(savedTitle)) === String(titleId)
+  );
+
+  const updateButton = saved => {
+    button.classList.toggle("saved", saved);
+    button.setAttribute("aria-label", saved ? "Remove saved title" : "Save title");
+  };
+
+  updateButton(isSaved);
+  button.addEventListener("click", () => {
+    const saved = toggleSaveTitle(title, key);
+      updateButton(saved);
+      if (!saved && onUnsave) {
+        onUnsave();
+      }
+  });
+}
+
+export async function toggleSaveTitle(title, key) {
+  const titleId = getTitleId(title);
+  if (titleId === undefined || titleId === null) {
+    throw new Error("Cannot save a title without an id.");
+  }
+
+  // check if title already exist
+  const savedTitles = await getLocalStorage(key) || [];
+  const isSaved = savedTitles.some(
+    savedTitle => String(getTitleId(savedTitle)) === String(titleId)
+  );
+
+  const updatedTitles = isSaved
+    ? savedTitles.filter(savedTitle => String(getTitleId(savedTitle)) !== String(titleId))
+    : [...savedTitles, title];
+
+  setLocalStorage(key, updatedTitles);
+  return !isSaved;
+}
+
+// export function removeSavedCard(button, parentElement) {
+//   button.closest(".media-card").remove();
+//   if (!parentElement.querySelector(".media-card")) {
+//     parentElement.innerHTML = "<p>No titles saved yet.</p>";
+//   }
+// }

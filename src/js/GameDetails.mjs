@@ -1,4 +1,4 @@
-import { renderWithTemplate, renderListWithTemplate, setClick, toggleSaveTitle, loadData, parseTitle } from "/js/utils.mjs";
+import { renderWithTemplate, renderListWithTemplate, bindSaveButton, loadData, parseTitle } from "/js/utils.mjs";
 
 const gamesURL = import.meta.env.VITE_RAWG_SERVER_URL;
 const apiKey = import.meta.env.VITE_RAWG_API_KEY;
@@ -8,7 +8,7 @@ function gameCardTemplate(game) {
     <div class="media-card">
       <div class="media-cover">
         <img src="${game.background_image}" alt="${game.name} Poster" class="game-poster" width="300" loading="lazy" />
-        <button class="save-btn" aria-label="Save title" data-slug="${game.slug}">
+        <button class="game-save-btn save-btn" aria-label="Save title" data-slug="${game.slug}">
           <svg class="star-icon" viewBox="0 0 24 24" width="24" height="24">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
@@ -99,20 +99,19 @@ export default class GameDetails {
   }
 
   async renderGamesList(gamesList, parentElement) {
-    await renderListWithTemplate(gameCardTemplate, parentElement, gamesList, "beforeend");
-    
-    const saveBtns = document.querySelectorAll(".save-btn");
-    // console.log(saveBtns);
+    await renderListWithTemplate(gameCardTemplate, parentElement, gamesList, "beforeend"); 
     const localKey = "savedGames";
+    
+    const saveBtns = document.querySelectorAll(".game-save-btn");
+    // console.log(saveBtns);
 
-    for(const btn of saveBtns) {
+    for(const [index, btn] of saveBtns.entries()) {
+      // console.log(btn.dataset.id);
 
-      const title = await this.getGameByTitle(btn.dataset.slug);
+      const title = gamesList[index];
       // console.log(title);
 
-      setClick(btn, () => {
-        toggleSaveTitle(title, localKey)
-      }, "saved");
+      bindSaveButton(btn, title, localKey);
     }
   }
 
