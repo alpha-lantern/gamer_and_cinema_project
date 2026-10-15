@@ -11,13 +11,25 @@ export function getLocalStorage(key) {
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-// set a listener for both touchend and click
-export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
-    event.preventDefault();
-    callback();
-  });
-  qs(selector).addEventListener("click", callback);
+
+export function convertToJson(res) {
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Bad Response");
+  }
+}
+
+export async function loadData(path) {
+  try {
+    const response = await fetch(path);
+    const data = await convertToJson(response);
+    return data;
+  }
+  catch (error) {
+    console.error(`Error loading data from ${path}:`, error);
+    throw error;
+  }
 }
 
 // render a list of items using a template function
@@ -78,13 +90,13 @@ export function processSearchParams(form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form)
+    const formData = new FormData(form);
     const searchParams = new URLSearchParams();
 
     for (const [key, value] of formData.entries()) {
       if (value.trim() !== "") {
         searchParams.append(key, value);
-        paramsArray.push(`{${key}, ${value}}`);
+        // paramsArray.push(`{${key}, ${value}}`);
       }
     }
 
@@ -100,6 +112,36 @@ export function getParam(param) {
   return id
 }
 
-// export function getSearchParams(button, form) {
-//   setClick(button, processSearchParams(form));
-// }
+export function setClick(button, callback, newClass="") {
+  button.addEventListener("click", () => {
+    callback();
+    if (newClass !== "") {
+      button.classList.toggle(newClass);
+    }
+  });
+}
+
+export async function toggleSaveTitle(title, key) {
+  const savedTitles = await getLocalStorage(key) || [];
+
+  const savedIndex = savedTitles.indexOf(title.id);
+  console.log(title);
+
+  // check if title already exist
+  if (savedIndex > -1) {
+    savedTitles.splice(savedIndex, 1);
+    console.log("title already saved, so removing it");
+  } else {
+    savedTitles.push(title);
+    console.log("title saved");
+  }
+
+  setLocalStorage(key, savedTitles);
+}
+
+export function parseTitle(title) {
+  title.trim();
+  const parsed = title.split(":")[0];
+
+  return parsed;
+}

@@ -37,9 +37,9 @@
         <button id="filter-close" class="filter-close-btn" aria-label="Close Filters">&times;</button>
 
         <form class="filter-form" id="filter-form" method="GET" action="/explore/">
-          <fieldset class="form-group">
-            <legend>ALL ENTERTAINMENT</legend>
-            <div class="filter-group">
+          <!-- <fieldset class="form-group"> -->
+            <!-- <legend>ALL ENTERTAINMENT</legend> -->
+            <!-- <div class="filter-group">
               <label for="year-filter">Release Year</label>
               <select id="year-filter" name="year">
                 <option value="">Any</option>
@@ -48,7 +48,10 @@
                 <option value="2000-2009">2000 - 2009</option>
                 <option value="1999">1999 and before</option>
               </select>
-            </div>
+            </div> -->
+          <!-- </fieldset> -->
+          <fieldset class="form-group">
+            <legend>VIDEO GAMES</legend>
             <div class="filter-group">
               <label for="genre-filter">Genre</label>
               <select id="genre-filter" name="genre">
@@ -60,9 +63,6 @@
                 <option value="horror">Horror</option>
               </select>
             </div>
-          </fieldset>
-          <fieldset class="form-group">
-            <legend>VIDEO GAMES</legend>
             <div class="filter-group">
               <label for="platform-filter">Platform</label>
               <select id="platform-filter" name="platform">
@@ -74,13 +74,13 @@
               </select>
             </div>
           </fieldset>
-          <fieldset class="form-group">
+          <!-- <fieldset class="form-group">
             <legend>MOVIES & SERIES</legend>
             <div class="filter-group-check">
               <label for="movies"><input type="checkbox" id="movies" name="movies" checked>Movies</label>
               <label for="series"><input type="checkbox" id="series" name="series" checked>Series</label>
             </div>
-          </fieldset>
+          </fieldset> -->
           <button type="submit" id="apply-filters" class="apply-btn">Apply Filters</button>
         </form>
       </aside>

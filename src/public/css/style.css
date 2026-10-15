@@ -296,6 +296,7 @@ p {
 } */
 
 .media-card {
+  position: relative;
   margin: .5rem 0;
   padding: .8rem;
   border: var(--accent-color-1) solid 1px;
@@ -310,6 +311,43 @@ p {
     "media-dev-dir media-dev-dir link"
   ;
   gap: .5rem;
+}
+
+.save-btn {
+  position: absolute;
+  top: 12px;
+  left: 8px;
+  background: var(--secondary-color);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  z-index: 2;
+}
+
+.save-btn:hover {
+  transform: scale(1.1);
+  background: var(--primary-color);
+}
+
+/* Default Star State (Unfilled / Outlined) */
+.star-icon {
+  fill: none;
+  stroke: var(--accent-color-1); /* Gold/Yellow star color */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.2s ease;
+}
+
+/* Filled State (Applied via JS when saved or clicked) */
+.save-btn.saved .star-icon {
+  fill: var(--accent-color-2);
 }
 
 .media-cover {
@@ -568,6 +606,14 @@ When the viewport is wide enough (e.g., `1024px` and above)
   .details-container {
     display: grid;
     grid-template-columns: 1fr 500px;
+    gap: 1rem;
+  }
+
+  .related-content {
+    max-height: 90vh;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color-1);
   }
 
   .game-details, .movie-details {

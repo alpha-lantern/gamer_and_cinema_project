@@ -1,6 +1,7 @@
-import { loadHeaderFooter, qs, getLocalStorage, setLocalStorage, processSearchParams } from '/js/utils.mjs';
+import { loadHeaderFooter, qs, processSearchParams } from '/js/utils.mjs';
 import GameDetails from '/js/GameDetails.mjs';
 import MovieDetails from '/js/MovieDetails.mjs';
+import Filters from './Filters.mjs';
 
 const moviesContainer = qs("#movies-container");
 const gamesContainer = qs("#games-container");
@@ -9,6 +10,7 @@ const filterForm = qs("#filter-form");
 
 const movieDetails = new MovieDetails();
 const gameDetails = new GameDetails();
+const filters = new Filters();
 
 // Load header and footer
 loadHeaderFooter();
@@ -34,7 +36,7 @@ const defaultExplore = async () => {
     // Movies
     const movieDefaultList = ["tt0076759", "tt0080684", "tt0086190", "tt0120915"];
     const movieList = await Promise.all(movieDefaultList.map(id => movieDetails.getMovieById(id)));
-    console.log(movieList);
+    // console.log(movieList);
 
     await movieDetails.renderMoviesList(movieList, moviesContainer);
 
@@ -42,13 +44,41 @@ const defaultExplore = async () => {
     // const testGameList = [12020, 3070, 3328];
     const gameDefaultList = ["jedi-the-fallen-order", "star-wars-jedi-survivor", "star-wars-squadrons", "star-wars-jedi-knight-ii-jedi-outcast"]
     const gameList = await Promise.all(gameDefaultList.map(title => gameDetails.getGameByTitle(title)));
-    console.log(gameList);
+    // console.log(gameList);
 
     await gameDetails.renderGamesList(gameList, gamesContainer);
 }
 
-// const filteredExplore = async () => {
+const filteredExplore = async () => {
+  let gameList = [];
+  let movieList = [];
+  if (filters.getSearch()) {
+    const search = filters.getSearch();
+    gameList = await gameDetails.getAllContentByTitle(search);
+    movieList = await movieDetails.getAllContentByTitle(search);
+    console.log(search);
+    console.log(movieList);
+    console.log(gameList);
 
-// }
+    await gameDetails.renderGamesList(gameList, gamesContainer);
+    await movieDetails.renderMoviesList(movieList, moviesContainer);
+  } else {
+    const filterList = filters.getParams();
+    console.log(filterList);
 
-defaultExplore();
+    gameList = await gameDetails.getListByFilters(filterList.genre, filterList.platform);
+    const tempTitle = gameList[0].name
+    movieList = await movieDetails.getAllContentByTitle(tempTitle);
+
+    await gameDetails.renderGamesList(gameList, gamesContainer);
+    await movieDetails.renderMoviesList(movieList, moviesContainer)
+  }
+}
+
+if(filters.getSearch() !== null || filters.getParams().values !== null) {
+  filteredExplore();
+  console.log("filtered");
+} else {
+  defaultExplore();
+  console.log("default");
+}

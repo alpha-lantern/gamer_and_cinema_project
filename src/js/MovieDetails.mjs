@@ -1,4 +1,4 @@
-import { renderWithTemplate, renderListWithTemplate } from "/js/utils.mjs";
+import { renderWithTemplate, renderListWithTemplate, setClick, toggleSaveTitle, loadData, parseTitle } from "/js/utils.mjs";
 
 const moviesURL = import.meta.env.VITE_OMDB_SERVER_URL;
 const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -8,19 +8,24 @@ function movieCardTemplate(movie) {
     <div class="media-card">
       <div class="media-cover">
         <img src="${movie.Poster}" alt="${movie.Title} Poster" class="movie-poster" loading="lazy" />
+        <button class="save-btn" aria-label="Save title" data-id="${movie.imdbID}">
+          <svg class="star-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
+        </button>
       </div>
 
       <span class="media-type">Movies & Series</span>
-      <span class="media-rating"><strong class="label">IMDB:</strong> ${movie.imdbRating}/10</span>
+      <span class="media-rating"><strong class="label">IMDB:</strong> ${movie.imdbRating || "- "}/10</span>
 
       <div class="media-data">
         <h3 class="details-title-sml">${movie.Title}</h3>
         <p class="details-sml"><span class="label">Released:</span> ${movie.Year}</p>
-        <p class="details-sml">${movie.Genre}</p>
+        <p class="details-sml">${movie.Genre || "Not Listed"}</p>
       </div>
 
-      <p class="details-sml media-rated">${movie.Runtime} | ${movie.Rated}</p>
-      <p class="details-sml media-dev-dir"><span class="label">Director:</span> ${movie.Director}</p>
+      <p class="details-sml media-rated">${movie.Runtime || "Not Listed"} | ${movie.Rated || "Not Rated"}</p>
+      <p class="details-sml media-dev-dir"><span class="label">Director:</span> ${movie.Director || "Not Listed"}</p>
 
       <a href="../details/?movie=${movie.imdbID}" class="go-to-details link-primary">View Details → </a>
     </div>
@@ -35,16 +40,16 @@ function movieTemplate(movie) {
       </div>
       <p class="type-rating">
         <span class="type">Movies & Series</span>
-        <span class="rating"><strong class="label">IMDB:</strong> ${movie.imdbRating}/10</span>
+        <span class="rating"><strong class="label">IMDB:</strong> ${movie.imdbRating || "Not Rated"}/10</span>
       </p>
 
       <h2 class="details-title">${movie.Title}</h3>
 
       <div class="details-card">
         <p class="details-sml"><span class="label">Released:</span> ${movie.Year}</p>
-        <p class="details-sml">Genres: ${movie.Genre}</p>
-        <p class="details-sml media-rated">${movie.Runtime} | ${movie.Rated}</p>
-        <p class="details-sml media-dev-dir"><span class="label">Director:</span> ${movie.Director}</p>
+        <p class="details-sml">Genres: ${movie.Genre || "Not Listed"}</p>
+        <p class="details-sml media-rated">${movie.Runtime} | ${movie.Rated || "Not Rated"}</p>
+        <p class="details-sml media-dev-dir"><span class="label">Director:</span> ${movie.Director || "Not Listed"}</p>
       </div>
       
       <div class="description">
@@ -60,38 +65,28 @@ function movieTemplate(movie) {
   `;
 }
 
-function convertToJson(res) {
-  if (res.ok) {
-    return res.json();
-  } else {
-    throw new Error("Bad Response");
-  }
-}
-
 export default class MovieDetails {
   constructor() {
     // this.category = category;
     // this.path = this.category === "games" ? gamesURL : moviesURL;
   }
 
-  async getAllMoviesByTitle(title) {
-    const response = await fetch(`${moviesURL}?s=${title}&apikey=${apiKey}`);
-    const data = await convertToJson(response);
+  async getAllContentByTitle(title) {
+    const titleSearch = parseTitle(title);
+    const data = await loadData(`${moviesURL}?s=${titleSearch}&apikey=${apiKey}`);
 
-    return data;
+    return data.Search;
   }
 
   async getMovieByTitle(title) {
-    const response = await fetch(`${moviesURL}?t=${title}&apikey=${apiKey}`);
-    const data = await convertToJson(response);
+    const data = await loadData(`${moviesURL}?t=${title}&apikey=${apiKey}`);
 
-    return data.Result;
+    return data.Search;
   }
 
   async getMovieById(id) {
-    const response = await fetch(`${moviesURL}?i=${id}&apikey=${apiKey}`);
-    const movie = await convertToJson(response);
-    return movie;
+    const data = await loadData(`${moviesURL}?i=${id}&apikey=${apiKey}`);
+    return data;
   }
 
   async renderMovie(movie, parentElement) {
@@ -101,5 +96,20 @@ export default class MovieDetails {
 
   async renderMoviesList(moviesList, parentElement) {
     await renderListWithTemplate(movieCardTemplate, parentElement, moviesList,"beforeend");
+
+    const saveBtns = document.querySelectorAll(".save-btn");
+    // console.log(saveBtns);
+    const localKey = "savedMovies";
+
+    for(const btn of saveBtns) {
+      // console.log(btn.dataset.id);
+
+      const title = await this.getMovieById(btn.dataset.id);
+      // console.log(title);
+
+      setClick(btn, () => {
+        toggleSaveTitle(title, localKey)
+      }, "saved");
+    }
   }
 }

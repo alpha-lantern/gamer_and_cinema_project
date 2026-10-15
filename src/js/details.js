@@ -3,6 +3,9 @@ import GameDetails from '/js/GameDetails.mjs';
 import MovieDetails from '/js/MovieDetails.mjs';
 
 const contentContainer = qs("#main-content");
+const relatedContainer = qs("#related-content");
+const gameDetails = new GameDetails();
+const movieDetails = new MovieDetails();
 
 const getMediaType = () => {
     try {
@@ -15,6 +18,22 @@ const getMediaType = () => {
     }
 }
 
+const renderRelatedContent = async(titleString) => {
+    const relatedGames = await gameDetails.getAllContentByTitle(titleString) || null;
+    const relatedMovies = await movieDetails.getAllContentByTitle(titleString) || null;
+
+    console.log(relatedGames);
+    console.log(relatedMovies);
+
+    if (relatedGames !== null) {
+        gameDetails.renderGamesList(relatedGames.slice(0, 4), relatedContainer);
+    }
+
+    if (relatedMovies !== null) {
+        movieDetails.renderMoviesList(relatedMovies.slice(0, 4), relatedContainer);
+    }
+}
+
 async function init() {
     await loadHeaderFooter();
 
@@ -22,20 +41,20 @@ async function init() {
     console.log(type);
 
     if (type[0] !== null) {
-        const gameDetails = new GameDetails();
         const game = await gameDetails.getGameById(type[0]);
 
         console.log(game);
 
         gameDetails.renderGame(game, contentContainer);
+        await renderRelatedContent(game.name)
     }
     else if (type[1] !== null) {
-        const movieDetails = new MovieDetails();
         const movie = await movieDetails.getMovieById(type[1]);
 
         console.log(movie);
 
         movieDetails.renderMovie(movie, contentContainer);
+        await renderRelatedContent(movie.Title)
     }
 
 }
