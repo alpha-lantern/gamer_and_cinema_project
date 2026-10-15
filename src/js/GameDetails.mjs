@@ -76,6 +76,8 @@ export default class GameDetails {
   async getAllContentByTitle(title) {
     const titleSearch = parseTitle(title);
     const data = await loadData(`${gamesURL}?search=${titleSearch}&key=${apiKey}`);
+    // const platforms = await loadData(`https://api.rawg.io/api/platforms?key=${apiKey}`);
+    // console.log(platforms.results);
 
     return data.results;
   }
@@ -114,15 +116,15 @@ export default class GameDetails {
     }
   }
 
-  async getListByFilters(genre="", platform="") {
+  async getListByFilters(genre="", platforms="") {
     let url = `${gamesURL}?key=${apiKey}`;
-    if(genre !== "") {
+    if(genre !== null) {
       url += `&genres=${genre}`;
     }
-    if(platform !== "") {
-      url += `&platform=${platform}`;
+    if(platforms !== null) {
+      url += `&platforms=${platforms}`;
     }
-
+    // console.log(url);
     const data = await loadData(url);
 
     return data.results;

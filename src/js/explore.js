@@ -38,7 +38,7 @@ closeBtn.addEventListener('click', () => {
 
 processSearchParams(filterForm);
 const searchParams = new URLSearchParams(window.location.search);
-console.log(searchParams.toString());
+// console.log(searchParams.toString());
 
 const defaultExplore = async () => {
     // Movies
@@ -52,7 +52,7 @@ const defaultExplore = async () => {
     // const testGameList = [12020, 3070, 3328];
     const gameDefaultList = ["jedi-the-fallen-order", "star-wars-jedi-survivor", "star-wars-squadrons", "star-wars-jedi-knight-ii-jedi-outcast"]
     const gameList = await Promise.all(gameDefaultList.map(title => gameDetails.getGameByTitle(title)));
-    console.log(gameList);
+    // console.log(gameList);
 
     await gameDetails.renderGamesList(gameList, gamesContainer);
 }
@@ -69,19 +69,20 @@ const filteredExplore = async () => {
     await gameDetails.renderGamesList(gameList, gamesContainer);
     await movieDetails.renderMoviesList(movieList, moviesContainer);
   } else {
-    gameList = await gameDetails.getListByFilters(filterParams.genre, filterParams.platform);
-    const tempTitle = gameList[0].name
+    gameList = await gameDetails.getListByFilters(filterParams.genre, filterParams.platforms);
+    // console.log(gameList);
+    const tempTitle = gameList[0].name;
     movieList = await movieDetails.getAllContentByTitle(tempTitle);
 
     await gameDetails.renderGamesList(gameList, gamesContainer);
-    await movieDetails.renderMoviesList(movieList, moviesContainer)
+    await movieDetails.renderMoviesList(movieList, moviesContainer);
   }
 }
 
 if(search !== null || Object.values(filterParams).some(value => value !== null)) {
   filteredExplore();
-  console.log("filtered");
+  // console.log("filtered");
 } else {
   defaultExplore();
-  console.log("default");
+  // console.log("default");
 }

@@ -19,8 +19,14 @@ export default class Filters {
             // const title = getParam("search") || null;
             const year = getParam("year") || null;
             const genre = getParam("genre") || null;
-            const platform = getParam("platform") || null;
-            return {"year": year, "genre": genre, "platform": platform};
+            const platforms = getParam("platforms") || null;
+            // console.log(platforms);
+            let parsedPlatforms = platforms;
+            if (platforms !== null) {
+                parsedPlatforms = platforms.split(" ").join(",");
+                // console.log(`Parsed:${parsedPlatforms}`);
+            }
+            return {"year": year, "genre": genre, "platforms": parsedPlatforms};
         } catch (error) {
             console.error("Something went wrong retrieving the parameter", error);
             throw error;

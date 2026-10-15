@@ -133,7 +133,7 @@ export async function toggleSaveTitle(title, key) {
     console.log("title already saved, so removing it");
   } else {
     savedTitles.push(title);
-    console.log("title saved");
+    // console.log("title saved");
   }
 
   setLocalStorage(key, savedTitles);
